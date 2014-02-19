@@ -1,0 +1,1 @@
+﻿var eventApp = angular.module('eventsApp', ['ngSanitize']);

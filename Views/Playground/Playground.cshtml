@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html ng-app="eventsApp">
+<head>
+    <script type="text/javascript" src="~/Scripts/angular.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/app.js"></script>
+    <script type="text/javascript" src="~/Scripts/EventController.js"></script>
+    <script type="text/javascript" src="~/Scripts/filters.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body ng-cloak">
+    <div ng-controller="EventController">
+        <form name="newEventForm">
+        <label ng-bind="event.name"></label>
+        <label>event date: {{event.date | date:'mediumDate'}}</label>
+        <div ng-bind-html="snippet">some title</div>
+        <div ng-bind-html-unsafe="snippet">some title</div>
+        <label ng-style="BoldThis" ng-show="boolValue">Show me</label>
+        <label ng-hide="boolValue">Hide me</label>
+        <input type="text" ng-model="yourName" required placeholder="Enter a name here" />        
+            <input type="text" ng-model="event.eventdate" required ng-pattern="/\d\d/\d\d/\d\d\d\d/" placeholder="please enter date" />
+            <hr>
+        <h1>Hello {{yourName}}! </h1>
+        <h2 ng-bind-template="{{event.name | uppercase}} - {{event.date}}"></h2>
+        <br />
+        Address: {{event.location.address}}
+        <img ng-src="{{event.imageUrl}}" />
+        
+        <select ng-model="sortorder">
+            <option selected value="name">Name</option>
+            <option value="-upVoteCount">Votes</option>
+        </select>
+
+        <select ng-model="query.difficulty">
+            <option selected value="">All</option>
+            <option value="introductory">Introductory</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+        </select>
+
+        <ul>
+            <li ng-repeat="session in event.sessions | orderBy:sortorder | limitTo:5 | filter:query">
+                <div class="votingButton" ng-click="upVoteSession(session)" style="cursor:pointer">
+                    Up
+                </div>
+                {{session.name}} Vote Count: {{session.upVoteCount}}
+                <br />{{session.difficulty}}
+                <br />{{session.duration | durations}}
+                <div class="votingButton" ng-click="downVoteSession(session)" style="cursor:pointer">
+                    Down
+                </div>
+                <input type="checkbox" ng-change="Reset()" ng-model="property" />
+            </li>
+        </ul>
+
+        <button class="btn" ng-disabled="disableButton">Disabled</button>
+        <input type="submit" ng-disabled="newEventForm.$invalid" ng-click="saveEvent(event,newEventForm)" value="Save" />
+            </form>
+    </div>
+</body>
+</html>
