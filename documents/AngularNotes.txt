@@ -1,0 +1,129 @@
+$anchorscroll - to scroll to particular page
+$cacheFactory - lets you add/read from cache
+$compile - adds elements to a page
+[compilecontroller.js]
+eventsApp.controller('CompileSampleController',
+	function CacheSampleController($scope, $compile) [
+	$scope.appendDivToElement = function(markup) {
+		return $compile(markup)($scope).appendTo(angular.element("#appendHere"));
+	}
+	};
+	
+[markup.cshtml]
+<div id="appendHere"></div>
+markup: <input type ="text" ng-model="markup"/>
+<button class = "btn" ng-click="appendDivToElement(markup)">Append</button>
+
+$parse - parses angular expression
+var getter = $parse('event.name');
+var context1 = {event: {name: 'angular boot camp'}};
+var context1 = {event: {name: 'code camp'}};
+console.log(getter(context1));
+console.log(getter(context1, context2)); // context 2 takes precedence
+var setter = getter.assign;
+setter(context2, 'code retreat');
+
+$locale - localizes date time
+-> need to download appropriate localization javascript file from http://code.angularjs.org/1.0.2/i18n/
+
+$timeout - allows you to intercept methods that take awhile
+[timeoutcontroller.js]
+eventsApp.controller('TimeoutSampleController',
+	function TimeoutSampleController($scope, $timeout) {
+		var promise = $timeout(function() {
+			$scope.name = 'Jon doe';
+			}, 3000);
+			
+	$scope.cancel = function () {
+		$timeout.cancel(promise);
+		};
+}	
+	);
+
+$exceptionHandler - globally handles exceptions
+[service.js]
+eventsApp.factory('$exceptionHandler', function () {
+return function (exception) {
+	console.log("exception handled: " + exception.message);
+	};
+	});
+
+[controller.js]
+throw {message: 'error message'};
+
+$cookieStore - gets, saves, and removes cookie objects
+
+$rootScope - can be used globally
+
+<--------------ROUTES -------------->
+-> Accessing Parameters -> Use $routeParams service
+-> Accessing other route properties -> Use $route service
+-> Removing # symbol from url -> use $locationProvider
+	-> <a href="event/{{event.id}}">
+[app.js]
+var eventsApp = angular.module('eventsApp', ['ngResource'])
+	.config(function($routeProvider, $locationProvider) {
+		$routeProvider.when('/event/:eventId',
+		{
+			foo:'bar',
+			templateUrl: 'templates/EventDetails.html',
+			controller: 'EventController'
+		});
+		$locationProvider.html5Mode(true);
+
+[eventcontroller.js]
+eventsApp.controller('EventController',
+	function EventController($scope, eventsData, $routeParams, $route) {
+		...
+		$scope.event = eventData.getEvent($routeParams.eventId)
+		$console.log($route.current.foo);
+		
+-> Accessing query string
+localhost/event/1?foo=bar		
+$console.log($route.current.params.foo); // returns bar
+$console.log($route.current.params.eventId); // returns 1
+$console.log($route.current.pathParams.eventId); // returns 1
+
+--> reloading page
+$route.reload();
+
+--> Using templates - displays "hello world" on the page
+$routeProvider.when('/event/:eventId',
+		{
+			foo:'bar',
+			template: 'hello world',
+			controller: 'EventController'
+		});
+
+--> resolve - handles slow loading pages
+[app.js]
+$routeProvider.when('/event/:eventId',
+		{
+			foo:'bar',
+			templateUrl: '/templates/EventDetails.html',
+			controller: 'EventController',
+			resolve: {
+				event: function($q, $route, eventData) {
+					var deferred = $q.defer();
+					eventData.getEvent($route.current.pathParams.eventId)
+						.then(function(event) { deferred.resolve(event); });
+					return dferred.promise
+				}
+			}
+		});
+[controller.js]
+eventsApp.controller('EventController',
+	function EventController($scope, $route) {
+		$scope.event = $route.current.locals.event;
+
+
+<--------------LOCATION SERVICE -------------->
+localhost:8000/newEvent?foo=bar&eventId=2#qux
+console.log('absUrl: ', $location.absUrl());
+.protocol() // http
+.port() // 8000
+.host() // localhost
+.hash() // qux
+.search() // Object {foo: "bar", eventId: "2"}
+.url() // newEvent?foo=bar&eventId=2#2
+.replace() // goes to new page without adding history

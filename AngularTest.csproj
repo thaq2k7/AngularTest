@@ -250,6 +250,8 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\angular-resource.min.js" />
+    <Content Include="Scripts\angular-route-min.js" />
     <Content Include="Scripts\angular-sanitize.min.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angularService.js" />
@@ -270,6 +272,10 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\phonecatControllers.js" />
+    <Content Include="templates\MyView.html" />
+    <Content Include="templates\phone-detail.html" />
+    <Content Include="templates\Phone-List.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -310,7 +316,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Playground\Playground.cshtml" />
-    <Content Include="Views\Playground\AngularService.cshtml" />
+    <Content Include="Views\AngularService\AngularService.cshtml" />
+    <Content Include="Views\AngularService\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

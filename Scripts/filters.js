@@ -1,4 +1,4 @@
-﻿eventApp.filter('durations', function() {
+﻿eventsApp.filter('durations', function() {
     return function(duration) {
         switch(duration) {
             case 1:

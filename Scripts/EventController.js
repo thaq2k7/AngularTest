@@ -1,6 +1,19 @@
-﻿eventApp.controller('EventController',
-        function EventController($scope) {
+﻿eventsApp.controller('EventController',
+        function EventController($scope, $rootScope, $location, addressData, addressBuilder, callService, callResource) {
 
+            callService.getEvent(function (event) {
+                $scope.new = event;
+                //alert(event.MyModel.Title);
+            });
+
+            $scope.myResource = callResource.getEvent();
+            //alert('value is: ' + callResource.getEvent().MyModel.Title);
+
+            $scope.createEvent = function () {
+                alert('hello');
+                $location.url('/NewEventWithService');
+            };
+            $rootScope.globalValue = 'Im global';
             $scope.snippet = '<span style="color:red">hi there</span>'
             $scope.boolValue = true;
             $scope.BoldThis = { fontWeight: 'bold' };
@@ -10,6 +23,7 @@
                 console.log(newEventForm);
                 if (newEventForm.$valid) {
                     alert(event.name + ' is saved');
+                    $location.url('/NewEventWithService');
                 }
                 else {
                     alert('not saved');
@@ -53,7 +67,9 @@
                     ]
             }
 
-            $scope.event.name = 'Updated Angular Name';
+            //$scope.event.name = 'You are from ' + addressData.address.city;
+            $scope.event.name = addressBuilder.buildAddress(addressData.address.city, addressData.address.state);            
+
             $scope.upVoteSession = function (session) {
                 session.upVoteCount++;
             };

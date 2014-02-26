@@ -1,28 +1,12 @@
-﻿@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html ng-app="eventsApp">
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <script type="text/javascript" src="~/Scripts/angular.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/angular-sanitize.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/app.js"></script>
-    <script type="text/javascript" src="~/Scripts/EventController.js"></script>
-    <script type="text/javascript" src="~/Scripts/filters.js"></script>
-    <script type="text/javascript" src="~/Scripts/angularService.js"></script>
-    <script type="text/javascript" src="~/Scripts/angular-resource.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/angular-route-min.js"></script>
-    <meta name="viewport" content="width=device-width" />
     <title></title>
 </head>
-<body ng-cloak">
-    <div ng-controller="EventController">
+<body>
+    <div>
         <form name="newEventForm">
         <label ng-bind="event.name"></label>
-            <br /><a href="#" ng-click="createEvent()">Create Event using location service</a>
-            <br /><input type="button" ng-click="createEvent()" value="click me" />
         <label>event date: {{event.date | date:'mediumDate'}}</label>
             <label>resource title: {{myResource.MyModel.Title}} {{globalValue}}</label>
         <div ng-bind-html="snippet">some title</div>
